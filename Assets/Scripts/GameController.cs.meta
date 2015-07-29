@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9d652d8bb185f9641ad3a071a11539eb
+timeCreated: 1438014483
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - StripeCube: {fileID: 187034, guid: 5b5ab70302e15164cb9f83875827ed66, type: 2}
+  - SquareCube: {fileID: 121924, guid: ba342232776feab49a3085bbb85d85cb, type: 2}
+  - DotsCube: {fileID: 138936, guid: 77ce7b6af06f24d45959f34e8e7109ac, type: 2}
+  - GridCube: {fileID: 115892, guid: 2a05b35648aac7e42b5f52feaf5b45fa, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
