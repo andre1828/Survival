@@ -11,7 +11,7 @@ public class GameOver : MonoBehaviour {
 
 	void Update () {
 
-		if (Input.GetKey (KeyCode.Joystick1Button7)) 
+		if (Input.GetKey (KeyCode.Joystick1Button7) || Input.GetKey(KeyCode.Return)) 
 		{
 			Application.LoadLevel("MainScene");
 		}

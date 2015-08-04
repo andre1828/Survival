@@ -8,5 +8,6 @@ public class Move : MonoBehaviour {
 	void Start ()
 	{
 		GetComponent<Rigidbody>().velocity = transform.forward * speed;
+		Destroy (gameObject, 0.5f);
 	}
 }

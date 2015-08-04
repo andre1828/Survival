@@ -23,11 +23,8 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.Joystick1Button7)) 
-			{
-			Pause();
-			}
-
+		Pause();
+		PlayerExists ();	//Check if Player is still on the scene
 	}
 
 	IEnumerator SpawnWaves ()   		  // Spawn enemies from time to time
@@ -44,6 +41,9 @@ public class GameController : MonoBehaviour {
 				Quaternion spawnRotation = Quaternion.identity;
 				Instantiate (DotsCube, spawnPosition, spawnRotation);
 				Instantiate (GridCube, spawnPosition, spawnRotation);
+				Instantiate (StripeCube, spawnPosition, spawnRotation);
+				Instantiate (SquareCube, spawnPosition, spawnRotation);
+
 
 				yield return new WaitForSeconds (spawnWait);
 			}
@@ -55,21 +55,30 @@ public class GameController : MonoBehaviour {
 	public void Pause ()                   
 	{
 
-		if(Time.timeScale == 1)
+		if (Input.GetKeyDown (KeyCode.Joystick1Button7) || Input.GetKey(KeyCode.P)) 
 		{
-			Time.timeScale = 0;
-			GetComponent<AudioSource>().Pause();
+			if(Time.timeScale == 1)
+			{
+				Time.timeScale = 0;
+				GetComponent<AudioSource>().Pause();
+			}
 
-			
+			else if(Time.timeScale == 0)
+			{
+				Time.timeScale = 1;
+				GetComponent<AudioSource>().Play();
+			}
 		}
-		else if(Time.timeScale == 0)
-		{
-			Time.timeScale = 1;
-			GetComponent<AudioSource>().Play();
-
-		}
-
 	}
+
+	public void PlayerExists()
+	{
+		if (!GameObject.Find ("Player"))         //If Player is not found
+		{
+			Application.LoadLevel("GameOver");   // Call GameOver scene
+		}
+	}
+
 
 }
 
