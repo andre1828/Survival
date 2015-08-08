@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 
-//		//right stick deadzone  configuration
+		//right stick deadzone  configuration
 //		float deadzone = 0.50f;
 //		Vector2 stickInput = new Vector2(Input.GetAxis("Horizontal_R"), Input.GetAxis("Vertical_R"));
 //		if (stickInput.magnitude < deadzone) {

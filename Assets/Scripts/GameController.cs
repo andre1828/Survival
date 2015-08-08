@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour 
+{
 
 
 	public GameObject StripeCube;
@@ -9,11 +10,15 @@ public class GameController : MonoBehaviour {
 	public GameObject DotsCube;
 	public GameObject GridCube;
 	public float WaitBeforeStart;
-	public Vector3 spawnValues;
 	public float spawnWait;
 	public int hazardCount;
 	private bool KeepSpawning = true; //boolean always true to keep spawning enemies
+	public Transform Player; //Pick Players position
 
+	//Variables for enemies spawn system
+	public Vector3 SpawnLeft;
+	public Vector3 SpawnRight;
+	public Quaternion spawnRotation;
 
 	void Start()
 	{
@@ -25,36 +30,34 @@ public class GameController : MonoBehaviour {
 	{
 		Pause();
 		PlayerExists ();	//Check if Player is still on the scene
+
+		//Configuration of enemies spawn system
+		SpawnLeft = new Vector3 (Random.Range (-21.55f, -1f), 0, Random.Range (-18f,12.5f)); 
+		SpawnRight =  new Vector3 (Random.Range (1f, 20.30f),0f,Random.Range (-18f,12.5f)); 	
+		spawnRotation = Quaternion.identity;
+
+
+
 	}
 
 	IEnumerator SpawnWaves ()   		  // Spawn enemies from time to time
 	{
-	
-		yield return new WaitForSeconds (WaitBeforeStart);
-		while (KeepSpawning == true)
-		{
-			for (int i = 0; i < hazardCount; i++) 
+
+			yield return new WaitForSeconds (WaitBeforeStart);
+			while (KeepSpawning == true)
 			{
-				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), 
-				                                     spawnValues.y,
-				                                     Random.Range (-spawnValues.z, spawnValues.z));  
-				Quaternion spawnRotation = Quaternion.identity;
-				Instantiate (DotsCube, spawnPosition, spawnRotation);
-				Instantiate (GridCube, spawnPosition, spawnRotation);
-				Instantiate (StripeCube, spawnPosition, spawnRotation);
-				Instantiate (SquareCube, spawnPosition, spawnRotation);
-
-
+				RandomEnemiePicker ();
 				yield return new WaitForSeconds (spawnWait);
+		
 			}
-		}
+
 
 	}
 
 	// Pause game
 	public void Pause ()                   
 	{
-
+		
 		if (Input.GetKeyDown (KeyCode.Joystick1Button7) || Input.GetKey(KeyCode.P)) 
 		{
 			if(Time.timeScale == 1)
@@ -62,7 +65,7 @@ public class GameController : MonoBehaviour {
 				Time.timeScale = 0;
 				GetComponent<AudioSource>().Pause();
 			}
-
+			
 			else if(Time.timeScale == 0)
 			{
 				Time.timeScale = 1;
@@ -70,15 +73,56 @@ public class GameController : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	public void PlayerExists()
 	{
 		if (!GameObject.Find ("Player"))         //If Player is not found
 		{
+			KeepSpawning = false;
 			Application.LoadLevel("GameOver");   // Call GameOver scene
+			
+		}
+	}
+	
+	public void RandomEnemiePicker()
+	{
+		int number = Random.Range ( 1, 5);  //Generate random number between 1 and 5 (Excluding 5)
+		
+		if (Player.position.x > 0f) 		//Checks if player is on the right quadrant, so it spawns enemies on the left
+		{
+			if (number == 1) 				//Checks the number ,each number represents a different enemie
+			{
+				Instantiate (StripeCube, SpawnLeft, spawnRotation);
+			} else if (number == 2) {
+				Instantiate (SquareCube, SpawnLeft, spawnRotation);
+			} else if (number == 3) {
+				Instantiate (DotsCube, SpawnLeft, spawnRotation);
+			} else if (number == 4) {
+				Instantiate (GridCube, SpawnLeft, spawnRotation);
+			}
+		}else if (Player.position.x < 0f)	//Checks if player is on the left quadrant, so it spawns enemies on the right
+		{
+			if(number == 1)
+			{
+				Instantiate(StripeCube,SpawnRight,spawnRotation);
+			}else if (number == 2)
+			{
+				Instantiate(SquareCube,SpawnRight,spawnRotation);
+			}else if (number == 3)
+			{
+				Instantiate(DotsCube,SpawnRight,spawnRotation);
+			}else if (number == 4)
+			{
+				Instantiate(GridCube,SpawnRight,spawnRotation);
+			}
 		}
 	}
 
-
 }
+
+
+
+	
+
+
 

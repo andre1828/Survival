@@ -32,6 +32,21 @@ public class DotsCubeBehavior : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerEnter (Collider other)
+	{
+		if (other.tag == "Player" ) 
+		{
+			Destroy(gameObject);  			//Auto destroy
+
+		}
+		if (other.tag == "Bolt")
+		{
+			Destroy(gameObject);  			//Auto destroy
+			Destroy(other.gameObject);		//Destroys Player
+
+		}
+	}
+
 
 
 }

@@ -41,7 +41,9 @@ public class SquareCubeBehavior : MonoBehaviour {
 
 	void ExplodeGreenCore() //Explodes
 	{
+
 		float distance = Vector3.Distance (target.position, transform.position);
+		
 		if(distance < 3)
 		{
 			WillFollow = false;
@@ -54,13 +56,13 @@ public class SquareCubeBehavior : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
 
-		if (other.tag == "Bolt")
-		{
-			Destroy(gameObject);  			//Auto destroy
-			Destroy(other.gameObject);		//Destroys Player
-			energyBlast = (GameObject) Instantiate(energyBlast, transform.position , transform.rotation);
-			Destroy(energyBlast,1);
+		if (other.tag == "Bolt") {
+			Destroy (gameObject);  			//Auto destroy
+			Destroy (other.gameObject);		//Destroys Player
+			energyBlast = (GameObject)Instantiate (energyBlast, transform.position, transform.rotation);
+			Destroy (energyBlast, 1);
 		}
+
 	}
 
 	IEnumerator WaitBeforeExplode(float Seconds, float distance)
@@ -69,11 +71,6 @@ public class SquareCubeBehavior : MonoBehaviour {
 		SkillAttack = (GameObject)Instantiate(SkillAttack, transform.position, transform.rotation);
 		Destroy (gameObject);
 		yield return new WaitForSeconds(Seconds);
-
-			if (distance < 3)
-			{
-			Destroy(GameObject.Find("Player"));
-			}
 		Destroy(SkillAttack, 2);
 
 		

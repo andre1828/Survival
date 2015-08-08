@@ -40,6 +40,7 @@ public class StripeCubeBehavior : MonoBehaviour {
 	void Dash() //this is supposed to be int the StripeCubeBehavior script
 	{
 		float distance = Vector3.Distance (target.position, transform.position);
+
 		if (distance < 3)
 		{
 			moveSpeed = moveSpeed * 1.5f; 
@@ -49,7 +50,17 @@ public class StripeCubeBehavior : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
+		if (other.tag == "Player" ) 
+		{
+			Destroy(gameObject);  			//Auto destroy
+			Destroy(other.gameObject);
+		}
+		if (other.tag == "Bolt")
+		{
+			Destroy(gameObject);  			//Auto destroy
+			Destroy(other.gameObject);		//Destroys Player
 
+		}
 	}
 
 

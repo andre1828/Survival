@@ -22,13 +22,14 @@ public class RotateAim : MonoBehaviour {
 
 	void Update ()
 	{
-		ControlMouse ();
-		//AimWithRightStick ();
+		AimWithMouse ();
+//		AimWithRightStick ();
 
 	}
 
-	void ControlMouse()
+	void AimWithMouse()
 	{
+		// Test this piece of code looking for smooth rotation with right stick controll
 		Vector3 mousePos = Input.mousePosition;
 		mousePos = cam.ScreenToWorldPoint (new Vector3 (mousePos.x, mousePos.y,cam.transform.position.y - transform.position.y));
 		targetRotation = Quaternion.LookRotation (mousePos - new Vector3(transform.position.x,0,transform.position.z));
@@ -40,11 +41,12 @@ public class RotateAim : MonoBehaviour {
 
 	void AimWithRightStick()
 	{
+
 		// ROTATE A GUN OBJECT AROUND THE Z-AXIS
 		// BASED ON THE ANGLE OF THE RIGHT ANALOG STICK
-		//		float x = Input.GetAxis ("Horizontal_R") ;
-		//		float y = Input.GetAxis ("Vertical_R") ;
-		//		float aim_angle = 0.0f;
+//				float x = Input.GetAxis ("Horizontal_R") ;
+//				float y = Input.GetAxis ("Vertical_R") ;
+//				float aim_angle = 0.0f;
 		
 		//bool aiming_right = false;
 		//bool aiming_up = false;
@@ -74,11 +76,11 @@ public class RotateAim : MonoBehaviour {
 		//		if (x != 0.0f || y != 0.0f) 
 		//		{
 		
-		//aim_angle = (Mathf.Atan2(y , x ) * Mathf.Rad2Deg) + 90;
+//		aim_angle = (Mathf.Atan2(y , x ) * Mathf.Rad2Deg) + 90;
 		//Debug.Log(aim_angle);					//output to understand how to rotate the aim correctly
 		
 		// ANGLE GUN
-		//			transform.rotation = Quaternion.AngleAxis(aim_angle, Vector3.up );
+//					transform.rotation = Quaternion.AngleAxis(aim_angle, Vector3.up );
 		
 		//this rotatese in a single diretion either left or right smoothly
 		//			transform.rotation = Quaternion.Euler(0f,transform.rotation.eulerAngles.y + 100f * Time.deltaTime * Input.GetAxis ("Horizontal_R"),0f);
