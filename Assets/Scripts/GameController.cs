@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour
 	public GameObject GridCube;
 	public float WaitBeforeStart;
 	public float spawnWait;
-	public int hazardCount;
 	private bool KeepSpawning = true; //boolean always true to keep spawning enemies
 	public Transform Player; //Pick Players position
 
@@ -19,17 +18,17 @@ public class GameController : MonoBehaviour
 	public Vector3 SpawnLeft;
 	public Vector3 SpawnRight;
 	public Quaternion spawnRotation;
-
+	
 	void Start()
 	{
-//		StartCoroutine (SpawnWaves ());
+		StartCoroutine (SpawnWaves ());
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		Pause();
-		PlayerExists ();	//Check if Player is still on the scene
+		StartCoroutine (PlayerExists ());	//Check if Player is still on the scene
 
 		//Configuration of enemies spawn system
 		SpawnLeft = new Vector3 (Random.Range (-21.55f, -1f), 0, Random.Range (-18f,12.5f)); 
@@ -46,7 +45,7 @@ public class GameController : MonoBehaviour
 			yield return new WaitForSeconds (WaitBeforeStart);
 			while (KeepSpawning == true)
 			{
-				RandomEnemiePicker ();
+				RandomEnemieSpawner ();
 				yield return new WaitForSeconds (spawnWait);
 		
 			}
@@ -74,17 +73,18 @@ public class GameController : MonoBehaviour
 		}
 	}
 	
-	public void PlayerExists()
+	IEnumerator PlayerExists()
 	{
 		if (!GameObject.Find ("Player"))         //If Player is not found
 		{
-			KeepSpawning = false;
+			KeepSpawning = false;				 //Stops enemies spawn
+			yield return new WaitForSeconds(1);	 //Waits seconds before calling GameOver scene
 			Application.LoadLevel("GameOver");   // Call GameOver scene
 			
 		}
 	}
 	
-	public void RandomEnemiePicker()
+	public void RandomEnemieSpawner()
 	{
 		int number = Random.Range ( 1, 5);  //Generate random number between 1 and 5 (Excluding 5)
 		

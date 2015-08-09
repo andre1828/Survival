@@ -37,12 +37,12 @@ public class DotsCubeBehavior : MonoBehaviour {
 		if (other.tag == "Player" ) 
 		{
 			Destroy(gameObject);  			//Auto destroy
-
+			Destroy(other.gameObject);		//Destroys Player
 		}
 		if (other.tag == "Bolt")
 		{
 			Destroy(gameObject);  			//Auto destroy
-			Destroy(other.gameObject);		//Destroys Player
+			Destroy(other.gameObject);		
 
 		}
 	}
