@@ -24,19 +24,18 @@ public class SquareCubeBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Follow ();
-		ExplodeGreenCore ();
+		 if (WillFollow) { Follow (); }
+
+		 ExplodeGreenCore ();
 	}
 
 
 	void Follow () //follows the player
 	{
-		if (WillFollow)
+		if (GameObject.Find ("Player") != null) 
 		{
-			if (GameObject.Find ("Player") != null) {
-				transform.LookAt (target);
-				transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);   
-			}
+			transform.LookAt(target);
+			transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);   
 		}
 	}
 
@@ -70,10 +69,9 @@ public class SquareCubeBehavior : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (Seconds);
 		SkillAttack = (GameObject)Instantiate(SkillAttack, transform.position, transform.rotation);
-		Destroy(SkillAttack, 2);
 		Destroy (gameObject);
 		yield return new WaitForSeconds(Seconds);
-
+		Destroy(SkillAttack, 2);
 
 		
 	}

@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour {
 	public Light DirectionalLight;  //Holds a object of type Light
 	public GameObject Snowflake;
 	public Transform StatusSpawn;
-	public GameObject SnowParticles;
 
 	void Start()
 	{
@@ -76,18 +75,15 @@ public class PlayerController : MonoBehaviour {
 			DirectionalLight.GetComponent<Light>();
 			DirectionalLight.color = Color.blue; //Sets the light color to blue
 			DirectionalLight.intensity = 3;      //Fades the light changing intensity to 3
-			SnowParticles.SetActive(true);			 //Activates the snow around the Player
 			StartCoroutine(PlayerSpeed());       //Calls PlayerSpeed to reset speed and light
 		}
 	}
-
 
 	IEnumerator PlayerSpeed() 
 	{
 		ShowStatus ();
 		yield return new WaitForSeconds (5); //Waits before reset Player
 		rb.drag = 0;						 //Resets the drags to 0
-		SnowParticles.SetActive(false);		 //Deactivates the snow around the Player
 		DirectionalLight.color = Color.red;  //Resets the light color to red
 		DirectionalLight.intensity = 8;      //Resets the light intensity (value 8)	}
 	}
