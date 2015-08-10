@@ -11,6 +11,7 @@ public class DotsCubeBehavior : MonoBehaviour {
 
 	private Transform target;
 	private float moveSpeed = 5.0f;
+	public GameObject flameBall;
 
 	// Use this for initialization
 	void Start () {
@@ -42,8 +43,9 @@ public class DotsCubeBehavior : MonoBehaviour {
 		if (other.tag == "Bolt")
 		{
 			Destroy(gameObject);  			//Auto destroy
-			Destroy(other.gameObject);		
-
+			Destroy(other.gameObject);	
+			flameBall = (GameObject)Instantiate(flameBall, transform.position, transform.rotation );
+			Destroy(flameBall,1);
 		}
 	}
 

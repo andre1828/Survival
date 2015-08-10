@@ -10,6 +10,7 @@ public class Boundary
 public class PlayerController : MonoBehaviour {  
 
 
+
 	public float speed; // Player movement speed
 	public GameObject Shot; // The bullet gameobject
 	public Transform ShotSpawn; //Where the bullet will be instantiated in the scene
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 	{	
 		if(Input.GetButton("Fire1") && !gunFired) //Waits mouse input to shoot
 		{
+
 			StartCoroutine(GunFire());
 		}
 

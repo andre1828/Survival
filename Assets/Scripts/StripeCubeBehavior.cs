@@ -54,12 +54,13 @@ public class StripeCubeBehavior : MonoBehaviour {
 		{
 			Destroy(gameObject);  			//Auto destroy
 			Destroy(other.gameObject);
+			Spark = (GameObject) Instantiate(Spark, transform.position, transform.rotation);
 		}
 		if (other.tag == "Bolt")
 		{
 			Destroy(gameObject);  			//Auto destroy
 			Destroy(other.gameObject);		//Destroys Player
-
+			Spark = (GameObject) Instantiate(Spark, transform.position, transform.rotation);
 		}
 	}
 

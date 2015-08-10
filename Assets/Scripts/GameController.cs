@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
 	public float spawnWait;
 	private bool KeepSpawning = true; //boolean always true to keep spawning enemies
 	public Transform Player; //Pick Players position
+	public GameObject GameMusic;
 
 	//Variables for enemies spawn system
 	public Vector3 SpawnLeft;
@@ -21,7 +22,7 @@ public class GameController : MonoBehaviour
 	
 	void Start()
 	{
-		StartCoroutine (SpawnWaves ());
+//		StartCoroutine (SpawnWaves ());
 	}
 
 	// Update is called once per frame
@@ -62,13 +63,13 @@ public class GameController : MonoBehaviour
 			if(Time.timeScale == 1)
 			{
 				Time.timeScale = 0;
-				GetComponent<AudioSource>().Pause();
+				GameMusic.GetComponent<AudioSource>().mute = true;
 			}
 			
 			else if(Time.timeScale == 0)
 			{
 				Time.timeScale = 1;
-				GetComponent<AudioSource>().Play();
+				GameMusic.GetComponent<AudioSource>().mute = false;
 			}
 		}
 	}
@@ -115,9 +116,9 @@ public class GameController : MonoBehaviour
 			{
 				Instantiate(GridCube,SpawnRight,spawnRotation);
 			}
-		}
+		} 
 	}
-
+	 
 }
 
 
