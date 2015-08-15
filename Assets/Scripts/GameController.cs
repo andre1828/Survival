@@ -3,18 +3,21 @@ using System.Collections;
 
 public class GameController : MonoBehaviour 
 {
-
-
-	public GameObject StripeCube;
-	public GameObject SquareCube;
-	public GameObject DotsCube;
-	public GameObject GridCube;
+	public int PlayerLife;    //Player's life
+	public GameObject[] Enemies = new GameObject[0];
 	public float WaitBeforeStart;
 	public float spawnWait;
 	private bool KeepSpawning = true; //boolean always true to keep spawning enemies
 	public Transform Player; //Pick Players position
 	public GameObject GameMusic;
 
+	//Used to respawn the Player;
+	public GameObject PlayerGameobject; 
+	public GameObject PlayerLight;
+	private Vector3 PlayerRespawnPosition = new Vector3(0,0,0);
+
+
+	
 	//Variables for enemies spawn system
 	public Vector3 SpawnLeft;
 	public Vector3 SpawnRight;
@@ -23,21 +26,19 @@ public class GameController : MonoBehaviour
 	void Start()
 	{
 //		StartCoroutine (SpawnWaves ());
+
+		//Configuration of enemies spawn system
+		SpawnLeft = new Vector3 (Random.Range (-21.55f, -1f), 0, Random.Range (-18f,12.5f)); 
+		SpawnRight =  new Vector3 (Random.Range (1f, 20.30f),0f,Random.Range (-18f,12.5f)); 	
+		spawnRotation = Quaternion.identity;
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		Pause();
-		StartCoroutine (PlayerExists ());	//Check if Player is still on the scene
-
-		//Configuration of enemies spawn system
-		SpawnLeft = new Vector3 (Random.Range (-21.55f, -1f), 0, Random.Range (-18f,12.5f)); 
-		SpawnRight =  new Vector3 (Random.Range (1f, 20.30f),0f,Random.Range (-18f,12.5f)); 	
-		spawnRotation = Quaternion.identity;
-
-
-
+		StartCoroutine (CallGameOver ());	//Check if Life reaches 0
+		RespawnPlayer ();  //Check if Player is still on the scene
 	}
 
 	IEnumerator SpawnWaves ()   		  // Spawn enemies from time to time
@@ -50,8 +51,6 @@ public class GameController : MonoBehaviour
 				yield return new WaitForSeconds (spawnWait);
 		
 			}
-
-
 	}
 
 	// Pause game
@@ -73,52 +72,57 @@ public class GameController : MonoBehaviour
 			}
 		}
 	}
-	
-	IEnumerator PlayerExists()
+
+	IEnumerator CallGameOver()
 	{
-		if (!GameObject.Find ("Player"))         //If Player is not found
+		if (PlayerLife == 0) //PlayerController.ReturnPlayerLife() says the how many lifes the Player has
 		{
 			KeepSpawning = false;				 //Stops enemies spawn
 			yield return new WaitForSeconds(1);	 //Waits seconds before calling GameOver scene
-			Application.LoadLevel("GameOver");   // Call GameOver scene
-			
+			Application.LoadLevel("GameOver");   //Call GameOver scene
+
 		}
 	}
+
+	public void RespawnPlayer() 				//Respawns player if dies
+	{
+		if (!GameObject.FindGameObjectWithTag("Player")) 
+		{
+			DecreasePlayerLife();
+//			ClearArena();
+			Instantiate(PlayerGameobject,PlayerRespawnPosition,Quaternion.identity);
+			PlayerLight.transform.position = PlayerRespawnPosition;
+			PlayerLight.SetActive(true);
 	
+		}
+
+	}
+
 	public void RandomEnemieSpawner()
 	{
-		int number = Random.Range ( 1, 5);  //Generate random number between 1 and 5 (Excluding 5)
-		
-		if (Player.position.x > 0f) 		//Checks if player is on the right quadrant, so it spawns enemies on the left
+		if (Player.position.x > 0f) {
+			Instantiate (Enemies [Random.Range (0, Enemies.Length)], SpawnLeft, spawnRotation);
+		} else 
 		{
-			if (number == 1) 				//Checks the number ,each number represents a different enemie
-			{
-				Instantiate (StripeCube, SpawnLeft, spawnRotation);
-			} else if (number == 2) {
-				Instantiate (SquareCube, SpawnLeft, spawnRotation);
-			} else if (number == 3) {
-				Instantiate (DotsCube, SpawnLeft, spawnRotation);
-			} else if (number == 4) {
-				Instantiate (GridCube, SpawnLeft, spawnRotation);
-			}
-		}else if (Player.position.x < 0f)	//Checks if player is on the left quadrant, so it spawns enemies on the right
-		{
-			if(number == 1)
-			{
-				Instantiate(StripeCube,SpawnRight,spawnRotation);
-			}else if (number == 2)
-			{
-				Instantiate(SquareCube,SpawnRight,spawnRotation);
-			}else if (number == 3)
-			{
-				Instantiate(DotsCube,SpawnRight,spawnRotation);
-			}else if (number == 4)
-			{
-				Instantiate(GridCube,SpawnRight,spawnRotation);
-			}
-		} 
+			Instantiate (Enemies [Random.Range (0, Enemies.Length)], SpawnRight, spawnRotation);
+		}
+ 
 	}
-	 
+
+	public void DecreasePlayerLife()
+	{
+		PlayerLife--;				//Decreases Player Life
+	}
+	
+	public int ReturnPlayerLife()   //Returns Player's Life
+	{
+		return PlayerLife;        
+	}
+
+//	public void ClearArena()
+//	{
+//
+//	}
 }
 
 

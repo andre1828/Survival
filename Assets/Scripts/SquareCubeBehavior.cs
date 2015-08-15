@@ -15,15 +15,22 @@ public class SquareCubeBehavior : MonoBehaviour {
 	public GameObject SkillAttack;
 	public GameObject energyBlast;
 
+	//
+	private InfoScript InfoScript; //Used in the void Start to hold reference to the script attached to InfoText gameobject
+
 	// Use this for initialization
 	void Start () {
 		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
 		target = Player.transform;
+
+
+		GameObject InfoText = GameObject.FindGameObjectWithTag("InfoText"); //Finds InfoText  gameobject
+		InfoScript = InfoText.GetComponent<InfoScript> ();                 //ScoreScript receives script from InfoText gameobject
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		KeepTrackOfPlayer ();
 		Follow ();
 		ExplodeGreenCore ();
 	}
@@ -59,8 +66,9 @@ public class SquareCubeBehavior : MonoBehaviour {
 
 		if (other.tag == "Bolt") {
 			Destroy (gameObject);  			//Auto destroy
-			Destroy (other.gameObject);		//Destroys Player
-			energyBlast = (GameObject)Instantiate (energyBlast, transform.position, transform.rotation);
+			InfoScript.IncreaseScore();     //Increases score
+			Destroy (other.gameObject);		//Destroys Bolt
+			energyBlast = (GameObject)Instantiate (energyBlast, transform.position, transform.rotation); //Instiate explosion
 			Destroy (energyBlast, 1);
 		}
 
@@ -74,10 +82,12 @@ public class SquareCubeBehavior : MonoBehaviour {
 		Destroy (gameObject);
 		yield return new WaitForSeconds(Seconds);
 
-
-		
 	}
 
-
+	public void KeepTrackOfPlayer()
+	{
+		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
+		target = Player.transform;
+	}
 
 }

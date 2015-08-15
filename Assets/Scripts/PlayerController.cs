@@ -11,21 +11,20 @@ public class PlayerController : MonoBehaviour {
 
 
 
-	public float speed; // Player movement speed
-	public GameObject Shot; // The bullet gameobject
-	public Transform ShotSpawn; //Where the bullet will be instantiated in the scene
+	public float speed;              // Player movement speed
+	public GameObject Shot;          // The bullet gameobject
+	public Transform ShotSpawn;      //Where the bullet will be instantiated in the scene
 	private Rigidbody rb;
-	private bool gunFired; //Helps limiting the fire rate
-	public float FireRate; //Time to wait before player shoots;
-	public Light DirectionalLight;  //Holds a object of type Light
-	public GameObject Snowflake;
-	public Transform StatusSpawn;
-	public GameObject SnowParticles;
+	private bool gunFired;           //Helps limiting the fire rate
+	public float FireRate;           //Time to wait before player shoots;
+	public Light DirectionalLight;   //Holds a object of type Light
+	public GameObject Snowflake;     //Snowflake image
+	public Transform StatusSpawn;    //Position where Snowflake image is going to spawn
+	public GameObject SnowParticles; //Particles for the Player's freezing fx
 
 	void Start()
 	{
-		rb = GetComponent<Rigidbody>();
-
+		rb = GetComponent<Rigidbody>(); //Player's Rigidbody
 	}
 	void Update()
 	
@@ -62,7 +61,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 		
-	IEnumerator GunFire()
+	IEnumerator GunFire()  //Fires Player's gun with delays
 	{
 		gunFired = true;
 		Instantiate (Shot, ShotSpawn.position, ShotSpawn.rotation);
@@ -100,6 +99,8 @@ public class PlayerController : MonoBehaviour {
 		Destroy (Snowflake, 1);              //Waits before destroy Snowflake symbol
 
 	}
+
+
 }
 
 

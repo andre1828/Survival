@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\GameMusic.cs" />
      <Compile Include="Assets\Scripts\GameOver.cs" />
      <Compile Include="Assets\Scripts\GridCubeBehavior.cs" />
+     <Compile Include="Assets\Scripts\InfoScript.cs" />
      <Compile Include="Assets\Scripts\Move.cs" />
      <Compile Include="Assets\Scripts\ParticleCollision.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemMultiplier.cs" />
