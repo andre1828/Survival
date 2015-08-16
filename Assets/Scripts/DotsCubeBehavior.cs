@@ -34,7 +34,6 @@ public class DotsCubeBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		 KeepTrackOfPlayer ();	
-		 Debug.Log (target);
 		 Follow ();
 	}
 
@@ -52,7 +51,6 @@ public class DotsCubeBehavior : MonoBehaviour {
 		{
 			Destroy(gameObject);  			//Auto destroy
 			Destroy(other.gameObject);		//Destroys Player
-			PlayerLight.SetActive(false);
 			gameController.DecreasePlayerLife();//Decreases Player's Life
 		}
 		if (other.tag == "Bolt")
@@ -70,5 +68,5 @@ public class DotsCubeBehavior : MonoBehaviour {
 		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
 		target = Player.transform;
 	}
-
+	
 }

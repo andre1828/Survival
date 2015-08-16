@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 	public GameObject PlayerGameobject; 
 	public GameObject PlayerLight;
 	private Vector3 PlayerRespawnPosition = new Vector3(0,0,0);
-
+	private Transform target;
 
 	
 	//Variables for enemies spawn system
@@ -25,20 +25,22 @@ public class GameController : MonoBehaviour
 	
 	void Start()
 	{
-//		StartCoroutine (SpawnWaves ());
+		StartCoroutine (SpawnWaves ());
 
 		//Configuration of enemies spawn system
 		SpawnLeft = new Vector3 (Random.Range (-21.55f, -1f), 0, Random.Range (-18f,12.5f)); 
 		SpawnRight =  new Vector3 (Random.Range (1f, 20.30f),0f,Random.Range (-18f,12.5f)); 	
 		spawnRotation = Quaternion.identity;
+
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		Pause();
-		StartCoroutine (CallGameOver ());	//Check if Life reaches 0
+		CallGameOver ();	//Check if Life reaches 0
 		RespawnPlayer ();  //Check if Player is still on the scene
+		KeepTrackOfPlayer ();
 	}
 
 	IEnumerator SpawnWaves ()   		  // Spawn enemies from time to time
@@ -73,12 +75,12 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-	IEnumerator CallGameOver()
+	public void CallGameOver()
 	{
 		if (PlayerLife == 0) //PlayerController.ReturnPlayerLife() says the how many lifes the Player has
 		{
 			KeepSpawning = false;				 //Stops enemies spawn
-			yield return new WaitForSeconds(1);	 //Waits seconds before calling GameOver scene
+//			yield return new WaitForSeconds(1);	 //Waits seconds before calling GameOver scene
 			Application.LoadLevel("GameOver");   //Call GameOver scene
 
 		}
@@ -89,8 +91,11 @@ public class GameController : MonoBehaviour
 		if (!GameObject.FindGameObjectWithTag("Player")) 
 		{
 			DecreasePlayerLife();
+			Time.timeScale = 0.5f;
+			PlayerLight.SetActive(false);
 //			ClearArena();
 			Instantiate(PlayerGameobject,PlayerRespawnPosition,Quaternion.identity);
+			StartCoroutine(WaitAfterSpawnPlayer());
 			PlayerLight.transform.position = PlayerRespawnPosition;
 			PlayerLight.SetActive(true);
 	
@@ -98,9 +103,15 @@ public class GameController : MonoBehaviour
 
 	}
 
+	public IEnumerator WaitAfterSpawnPlayer()
+	{
+		yield return new WaitForSeconds (2);
+		Time.timeScale = 1;
+	}
+	
 	public void RandomEnemieSpawner()
 	{
-		if (Player.position.x > 0f) {
+		if (target.position.x > 0f) {
 			Instantiate (Enemies [Random.Range (0, Enemies.Length)], SpawnLeft, spawnRotation);
 		} else 
 		{
@@ -112,17 +123,29 @@ public class GameController : MonoBehaviour
 	public void DecreasePlayerLife()
 	{
 		PlayerLife--;				//Decreases Player Life
+		Debug.Log (PlayerLife);
 	}
 	
 	public int ReturnPlayerLife()   //Returns Player's Life
 	{
 		return PlayerLife;        
 	}
+	
+	public void ClearArena() //encontrar um jeito de destruir inimigos na tela
+	{
 
-//	public void ClearArena()
-//	{
-//
-//	}
+	}
+
+	public void KeepTrackOfPlayer() //Keeps working everything that is looking for the Player
+	{
+		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
+		target = Player.transform;
+		
+		if (!GameObject.FindGameObjectWithTag ("Player")) 
+		{
+			return;
+		}
+	}
 }
 
 

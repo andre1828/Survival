@@ -14,7 +14,6 @@ public class StripeCubeBehavior : MonoBehaviour {
 	private float moveSpeed = 5.0f; //Speed to follow the Player
 	public GameObject Spark; 		// animation to be played when StripeCube dashes
 	public GameObject Player ; 
-	public GameObject PlayersLight;
 
 	//Score
 	private InfoScript InfoScript; //Used in the void Start to hold reference to the script attached to InfoText gameobject
@@ -56,6 +55,7 @@ public class StripeCubeBehavior : MonoBehaviour {
 		{
 			moveSpeed = moveSpeed * 1.5f; 
 			Spark = (GameObject) Instantiate(Spark, transform.position, transform.rotation);
+			Destroy(Spark, 1);
 		}
 	}
 
@@ -65,7 +65,6 @@ public class StripeCubeBehavior : MonoBehaviour {
 		{
 			Destroy(gameObject);  			//Auto destroy
 			Destroy(other.gameObject);      //Destroys Player
-			PlayersLight.SetActive(false);  //Turns  off Player light
 			Spark = (GameObject) Instantiate(Spark, transform.position, transform.rotation);
 			Destroy(Spark, 1);
 		}
@@ -84,6 +83,11 @@ public class StripeCubeBehavior : MonoBehaviour {
 	{
 		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
 		target = Player.transform;
+
+		if (!GameObject.FindGameObjectWithTag ("Player")) 
+		{
+			Destroy(gameObject);
+		}
 	}
 
 }

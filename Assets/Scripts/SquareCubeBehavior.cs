@@ -40,7 +40,7 @@ public class SquareCubeBehavior : MonoBehaviour {
 	{
 		if (WillFollow)
 		{
-			if (GameObject.Find ("Player") != null) {
+			if (GameObject.FindGameObjectWithTag ("Player") != null) {
 				transform.LookAt (target);
 				transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);   
 			}
@@ -88,6 +88,11 @@ public class SquareCubeBehavior : MonoBehaviour {
 	{
 		GameObject Player = GameObject.FindGameObjectWithTag ("Player"); // Finds Player's gameobject so it can be used in the script
 		target = Player.transform;
+		
+		if (!GameObject.FindGameObjectWithTag ("Player")) 
+		{
+			Destroy(gameObject);
+		}
 	}
 
 }

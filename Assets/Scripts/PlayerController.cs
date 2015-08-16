@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour {
 	private bool gunFired;           //Helps limiting the fire rate
 	public float FireRate;           //Time to wait before player shoots;
 	public Light DirectionalLight;   //Holds a object of type Light
-	public GameObject Snowflake;     //Snowflake image
-	public Transform StatusSpawn;    //Position where Snowflake image is going to spawn
 	public GameObject SnowParticles; //Particles for the Player's freezing fx
 
 	void Start()
@@ -69,35 +67,31 @@ public class PlayerController : MonoBehaviour {
 		gunFired = false;
 	}
 
-	void OnTriggerEnter(Collider other) 	// just to slow Player when it hits GridCube
+	/**this function its called from GridCubeBehavior,
+	 * if we call a coroutine from other object and it gets destroyed(wich will happen), 
+	 * the coroutine crashes, so we're calling a function that  intermediates the process
+	 * */
+	public void CallFreezePlayer() 
 	{
-		if (other.tag == "GridCube") 
-		{
-			rb.drag = 25; 					//Slows the Player using drag
-			DirectionalLight.GetComponent<Light>();
-			DirectionalLight.color = Color.blue; //Sets the light color to blue
-			DirectionalLight.intensity = 3;      //Fades the light changing intensity to 3
-			SnowParticles.SetActive(true);			 //Activates the snow around the Player
-			StartCoroutine(PlayerSpeed());       //Calls PlayerSpeed to reset speed and light
-		}
+		StartCoroutine (FreezePlayer ());
 	}
 
-
-	IEnumerator PlayerSpeed() 
+	public IEnumerator FreezePlayer() 
 	{
-		ShowStatus ();
-		yield return new WaitForSeconds (5); //Waits before reset Player
+		GetComponent<AudioSource> ().Play ();
+		rb.drag = 25; //Slows the Player using drag
+		DirectionalLight.color = Color.blue;  //Set light color to blue
+		DirectionalLight.intensity = 5;       //Fades the light changing intensity to 3
+		SnowParticles.SetActive(true);		  //Activates the snow around the Player
+		yield return new WaitForSeconds (5);
+		ResetPlayer ();
+	}
+
+	public void ResetPlayer()
+	{
 		rb.drag = 0;						 //Resets the drags to 0
-		SnowParticles.SetActive(false);		 //Deactivates the snow around the Player
 		DirectionalLight.color = Color.red;  //Resets the light color to red
 		DirectionalLight.intensity = 8;      //Resets the light intensity (value 8)	}
-	}
-
-	void ShowStatus() //Show symbols depending on what happened to the Player
-	{
-		Snowflake = (GameObject) Instantiate(Snowflake, StatusSpawn.position, StatusSpawn.rotation); //Shows Snowflake in the scene
-		Destroy (Snowflake, 1);              //Waits before destroy Snowflake symbol
-
 	}
 
 

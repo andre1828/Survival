@@ -7,7 +7,6 @@ public class EnemieBolt : MonoBehaviour {
 	public float speed;
 	private GameController gameController; //Used in the void Start to hold reference to the script attached to GameController
 	public GameObject Player; // Finds Player's gameobject so it can be used in the script
-	public GameObject PlayerLight;
 
 	void Start ()
 	{
@@ -27,7 +26,6 @@ public class EnemieBolt : MonoBehaviour {
 			gameController.DecreasePlayerLife();
 			Destroy(gameObject); // Auto Destroy
 			Destroy(other.gameObject); //Destroys Player
-			PlayerLight.SetActive(false);
 		}
 	}
 

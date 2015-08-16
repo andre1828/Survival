@@ -5,7 +5,7 @@ public class InfoScript : MonoBehaviour {
 
 	public int Score;
 	string text;
-	string Life; //Player's life
+	string Life ; //Player's life
 	private GameController gameController; //Used in the void Start to hold reference to the script attached to GameController
 
 	public GUIStyle style = new GUIStyle();
@@ -14,6 +14,11 @@ public class InfoScript : MonoBehaviour {
 	{
 		GameObject GameController = GameObject.FindGameObjectWithTag("GameController");
 		gameController = GameController.GetComponent<GameController> ();     //GameController receives script from GameController gameobject
+
+	}
+
+	void Update()
+	{
 		Life = "" + gameController.ReturnPlayerLife ();
 	}
 
